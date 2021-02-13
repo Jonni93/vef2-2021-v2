@@ -1,0 +1,61 @@
+<%- include('header') -%>
+
+    <h1>Undirskriftarlisti</h1>
+    <form method="post" action="/">
+      <div class="labels">
+        <label for="name">Nafn: </label>
+        <label for="nationalId">Kennitala: </label>
+        <label for="comment">Athugasemd: </label>
+      </div>
+      <div class="inputs">
+        <% if (Object.values(errorTypes).includes('name')){ %>
+          <input type="text" name="name" class="bg_red"> 
+        <% } else { %>
+          <input type="text" name="name">   
+        <% } %>           
+        <% if (Object.values(errorTypes).includes('nationalId')){ %>
+        <input type="text" name="nationalId" class="bg_red">   
+        <% } else { %>   
+        <input type="text" name="nationalId"> 
+        <% } %>  
+        <input type="text" name="comment">
+      </div>
+      <div class="check">
+        <input type="checkbox" name="anonymous" unchecked>        
+        <label for="name">Ekki birta nafn á lista </label>
+      </div>
+      
+      <button>Senda</button>
+    </form>
+    <% if (errorMessages.length != 0) { %>
+      <% for (let i = 0; i < errorMessages.length; i++){ %>
+        <p><%= errorMessages[i] %> </p>
+      <% } %>
+    <% } %>
+    <hr>
+
+    <h1>Undirskriftir: </h1>
+    <% if (empty != false) { %>
+      <h2><%= empty %></h2>
+    <% } else { %> 
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Nafn</th>
+          <th>Athugasemd</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach((d) => { %>
+          <tr> 
+            <td><%= d.signed %></td>
+            <td><%= d.anonymous == false ? d.name : '--- nafnleynd ---' %></td>
+            <td><%= d.comment %></td>
+          </tr>
+        <% }); %>
+    </tbody>
+  </table>
+  <% } %>
+  
+<%- include('footer') -%>
